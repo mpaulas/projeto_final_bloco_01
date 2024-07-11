@@ -1,12 +1,26 @@
 import readlinesync = require("readline-sync");
+import { colors } from "./src/util/color";
+import { ProdutoRepository } from "./src/repository/ProdutoRepository";
+import { Produto } from "./src/model/Produto";
+import { ProdutoController } from "./src/controller/ProdutoController";
 
 
 export function main() {
 
-    let opcao, id, preco, pecas: number;
+    let opcao, id, peca, preco: number;
     let nome: string;
+    const produtoController: ProdutoController = new ProdutoController();
 
-    
+    //Teste Aplicação
+    //const p1: Produto = new Produto(1, "Icons - Rádio Retrô", 906, 959.99);
+    //const p2: Produto = new Produto(2, "Art - A Via Láctea", 3091, 1999.99);
+
+    //p1.visualizar();
+    //p2.visualizar();
+
+    produtoController.cadastrar(new Produto(produtoController.gerarId(), "Icons - Rádio Retrô", 906, 959.99));
+    produtoController.cadastrar(new Produto(produtoController.gerarId(), "Art - A Via Láctea", 3091, 1999.99));
+
    
     while (true) {
 
@@ -45,9 +59,10 @@ export function main() {
                     "\n\nCriar Produto\n\n", colors.reset);
 
                 nome = readlinesync.question("Digite o Nome do Produto: ");
-                pecas = readlinesync.questionInt("Digite a quantidade de peças: ");
+                peca = readlinesync.questionInt("Digite a quantidade de peças: ");
                 preco = readlinesync.questionFloat("Digite o preco: R$ ");
 
+                produtoController.cadastrar(new Produto(produtoController.gerarId(), nome, peca, preco));
                 keyPress()
                 break;
             case 2:
@@ -77,9 +92,10 @@ export function main() {
                 if (produto !== null) {
 
                     nome = readlinesync.question("Digite o Nome do Produto: ");
-                    pecas = readlinesync.questionInt("Digite a quantidade de peças: ");
+                    peca = readlinesync.questionInt("Digite a quantidade de peças: ");
                     preco = readlinesync.questionFloat("Digite o preco: ");
-
+                    
+                    produtoController.atualizar(new Produto(id, nome, peca, preco));
                 } else
                     console.log("Produto não Encontrado!")
 
