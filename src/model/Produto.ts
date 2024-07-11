@@ -4,12 +4,14 @@ export class Produto{
     private _nome: string;
     private _peca: number;
     private _preco: number;
+	
 
 	constructor(id: number, nome: string, peca: number, preco: number) {
 		this._id = id;
 		this._nome = nome;
 		this._peca = peca;
 		this._preco = preco;
+		
 	}
 
     
@@ -17,19 +19,21 @@ export class Produto{
 		return this._id;
 	}
 
+   
 	public get nome(): string {
 		return this._nome;
 	}
 
-    
+   
 	public get peca(): number {
 		return this._peca;
 	}
 
-   
+    
 	public get preco(): number {
 		return this._preco;
 	}
+
 
     
 	public set id(value: number) {
@@ -50,13 +54,15 @@ export class Produto{
 	public set preco(value: number) {
 		this._preco = value;
 	}
- 
 
+   
 	
 
-     
-    public visualizar(){
- 
+
+	
+    public visualizar(): void{
+
+		
          console.log("\n*******************************************")
          console.log("Dados do Produto")
          console.log("*******************************************")

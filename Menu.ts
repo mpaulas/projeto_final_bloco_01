@@ -2,19 +2,25 @@ import readlinesync = require("readline-sync");
 import { colors } from "./src/util/color";
 import { ProdutoRepository } from "./src/repository/ProdutoRepository";
 import { Produto } from "./src/model/Produto";
+import { ProdutoController } from "./src/controller/ProdutoController";
 
 
 export function main() {
 
     let opcao, id, peca, preco: number;
     let nome: string;
+    const produtoController: ProdutoController = new ProdutoController();
 
     //Teste Aplicação
-    const p1: Produto = new Produto(1, "Icons - Rádio Retrô", 906, 959.99);
-    const p2: Produto = new Produto(2, "Art - A Via Láctea", 3091, 1999.99);
-    
-    p1.visualizar();
-    p2.visualizar();
+    //const p1: Produto = new Produto(1, "Icons - Rádio Retrô", 906, 959.99);
+    //const p2: Produto = new Produto(2, "Art - A Via Láctea", 3091, 1999.99);
+
+    //p1.visualizar();
+    //p2.visualizar();
+
+    produtoController.cadastrar(new Produto(produtoController.gerarId(), "Icons - Rádio Retrô", 906, 959.99));
+    produtoController.cadastrar(new Produto(produtoController.gerarId(), "Art - A Via Láctea", 3091, 1999.99));
+
    
     while (true) {
 
@@ -56,13 +62,14 @@ export function main() {
                 peca = readlinesync.questionInt("Digite a quantidade de peças: ");
                 preco = readlinesync.questionFloat("Digite o preco: R$ ");
 
+                produtoController.cadastrar(new Produto(produtoController.gerarId(), nome, peca, preco));
                 keyPress()
                 break;
             case 2:
                 console.log(colors.fg.whitestrong,
                     "\n\nListar todos os Produtos\n\n", colors.reset);
 
-                //produtoController.listarTodas();
+                produtoController.listarTodas();
 
                 keyPress()
                 break;
@@ -71,7 +78,7 @@ export function main() {
                     "\n\nConsultar Produtos - por Id\n\n", colors.reset);
 
                 id = readlinesync.questionInt("Digite o Id do Produto: ");
-                //produtoController.procurarPorId(id);
+                produtoController.procurarPorId(id);
 
                 keyPress()
                 break;
@@ -80,14 +87,15 @@ export function main() {
                     "\n\nAtualizar dados do Produto\n\n", colors.reset);
 
                 id = readlinesync.questionInt("Digite o Id do Produto: ");
-                //let produto = produtoController.buscarNoArray(id);
+                let produto = produtoController.buscarNoArray(id);
 
-                if (Produto !== null) {
+                if (produto !== null) {
 
                     nome = readlinesync.question("Digite o Nome do Produto: ");
                     peca = readlinesync.questionInt("Digite a quantidade de peças: ");
                     preco = readlinesync.questionFloat("Digite o preco: ");
-
+                    
+                    produtoController.atualizar(new Produto(id, nome, peca, preco));
                 } else
                     console.log("Produto não Encontrado!")
 
@@ -98,7 +106,7 @@ export function main() {
                     "\n\nApagar um Produto\n\n", colors.reset);
 
                 id = readlinesync.questionInt("Digite o Id do Produto: ");
-                //produtoController.deletar(id);
+                produtoController.deletar(id);
 
                 keyPress()
                 break;
